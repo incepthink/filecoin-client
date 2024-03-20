@@ -1,11 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --card-height: 80vh;
+  --card-width: calc(var(--card-height) / 1.5);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,3 +35,73 @@ body {
     text-wrap: balance;
   }
 }
+
+.card {
+  background: #ffffff;
+  width: var(--card-width);
+  height: var(--card-height);
+  position: relative;
+  border-radius: 1.5rem;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.card:hover:before,
+.card:hover:after {
+  animation: none;
+  opacity: 0;
+}
+
+.card::before {
+  content: "";
+  width: 101%;
+  height: 101%;
+  border-radius: 1.65rem;
+  background-image: linear-gradient(
+    var(--rotate),
+    #5ddcff,
+    #0284c7 43%,
+    #c084fc
+  );
+  position: absolute;
+  z-index: -1;
+  top: -0.5%;
+  left: -0.5%;
+  animation: spin 2.5s linear infinite;
+}
+
+.card::after {
+  position: absolute;
+  content: "";
+  top: calc(var(--card-height) / 10);
+  left: 0;
+  right: 0;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  transform: scale(0.8);
+  filter: blur(calc(var(--card-height) / 6));
+  background-image: linear-gradient(
+    var(--rotate),
+    #5ddcff,
+    #0284c7 43%,
+    #c084fc
+  );
+  opacity: 1;
+  transition: opacity 0.5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    --rotate: 0deg;
+  }
+  100% {
+    --rotate: 360deg;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
