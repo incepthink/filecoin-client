@@ -17,15 +17,17 @@ const ClaimingModal = ({ showModal, setShowModal, transactionDetails }) => {
           <h1 className="">
             Status:{" "}
             <span className="font-normal">
-              {transactionDetails?.message || "Claiming"}
+              {transactionDetails?.message || "Claiming your NFT. Please wait..."}
             </span>
           </h1>
-          <h1 className="">
-            Transaction Hash:{" "}
-            <span className="font-normal break-all">
-              {transactionDetails?.receipt?.hash || "N/A"}
-            </span>
-          </h1>
+          {transactionDetails && (
+            <h1 className="">
+              Transaction Hash:{" "}
+              <span className="font-normal break-all">
+                {transactionDetails?.receipt?.hash || "N/A"}
+              </span>
+            </h1>
+          )}
         </div>
       </div>
     </div>

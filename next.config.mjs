@@ -8,6 +8,9 @@ const nextConfig = {
     FVM_PRIVATE_KEY: process.env.FVM_PRIVATE_KEY,
     FVM_NFT_CONTRACT_ADDRESS: process.env.FVM_NFT_CONTRACT_ADDRESS,
   },
+  images: {
+    domains: ["incepthink.mypinata.cloud"],
+  },
   rewrites: async () => [
     {
       source: "/backend/:path*",
