@@ -159,7 +159,7 @@ const Home = () => {
           </div>
         </div>
         <div className="w-full h-fit md:h-full pt-32 md:pt-0 md:relative md:w-2/5 lg:w-3/5 bg-white">
-          <div className="flex items-center justify-center w-full h-full z-10">
+          <div className="flex items-center justify-center w-full h-full z-10 px-4">
             <NFTCard />
           </div>
         </div>
