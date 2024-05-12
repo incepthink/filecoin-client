@@ -28,6 +28,7 @@ const connectWallet = async () => {
     });
 
     const { user_instance, token } = res.data;
+    console.log(user_instance);
 
     const inThirtyMins = new Date(new Date().getTime() + 30 * 60 * 1000);
 

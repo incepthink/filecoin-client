@@ -1,8 +1,17 @@
 import axios from "axios";
 import { contract } from "./utils";
+import { ethers } from "ethers";
 
 const getMyNFTs = async (user) => {
   try {
+    const isValidate = ethers.isAddress(
+      user.wallet_address || user.magic_wallet
+    );
+
+    if (!isValidate) {
+      return [];
+    }
+
     const result = await contract.tokensOfOwner(
       user.wallet_address || user.magic_wallet
     );
@@ -32,7 +41,7 @@ const getMyNFTs = async (user) => {
     return nfts;
   } catch (error) {
     console.log(error);
-    return null
+    return null;
   }
 };
 

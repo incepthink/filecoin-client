@@ -22,9 +22,11 @@ import NFTDetailsForm from "@/components/NFTDetailsForm";
 import NFTCard from "@/components/NFTCard";
 import { StoreContext } from "@/Context";
 import MyOrdersModal from "@/components/modals/MyOrdersModal";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
   const { state, dispatch } = useContext(StoreContext);
+  const router = useRouter();
 
   const [showMyNFTs, setShowMyNFTs] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -62,7 +64,9 @@ const Home = () => {
       setShowAuthModal(true);
       return;
     }
-    setShowMyNFTs(true);
+    router.push(
+      `/profile/${state.user.wallet_address || state.user.magic_wallet}`
+    );
   };
 
   const handleConfetti = () => {
@@ -163,7 +167,7 @@ const Home = () => {
             <NFTCard />
           </div>
         </div>
-        <div className="p-2 absolute flex items-center justify-center gap-x-2 md:gap-x-6 w-full md:w-fit md:right-2 top-2 z-20 text-sm md:text-base">
+        <div className="p-2 absolute flex flex-wrap items-center justify-center gap-x-2 md:gap-x-6 w-full md:w-fit md:right-2 top-2 z-20 text-sm md:text-base">
           <button
             className="bg-white text-primary font-bold px-6 py-3 rounded-full"
             onClick={handleMyOrdersClick}
@@ -172,9 +176,21 @@ const Home = () => {
           </button>
           <button
             className="bg-white text-primary font-bold px-6 py-3 rounded-full"
-            onClick={handleMyNFTsClick}
+            onClick={() => {
+              if (!state.user) {
+                setShowAuthModal(true);
+                return;
+              }
+              setShowMyNFTs((prev) => !prev);
+            }}
           >
             My NFTs
+          </button>
+          <button
+            className="bg-white text-primary font-bold px-6 py-3 rounded-full"
+            onClick={handleMyNFTsClick}
+          >
+            My Profile
           </button>
           <button
             className="bg-primary text-white font-bold px-6 py-3 rounded-full"
