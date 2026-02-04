@@ -98,7 +98,7 @@ const handleShippingSubmit = async (state, dispatch, shippingDetails) => {
   try {
     if (!state.shippingDetails) {
       const res = await axios.post(
-        "/backend/shippings/newShipping",
+        "https://api.hashcase.co/shippings/newShipping",
         {
           ...shippingDetails,
           user_id: state.user.id,
@@ -113,7 +113,7 @@ const handleShippingSubmit = async (state, dispatch, shippingDetails) => {
       dispatch({ type: "SET_ORDER_STAGE", payload: 2 });
     } else {
       const res = await axios.put(
-        `/backend/shippings/shipping/${state.shippingDetails.shipping_id}`,
+        `https://api.hashcase.co/shippings/shipping/${state.shippingDetails.shipping_id}`,
         {
           shipping_details: {
             ...shippingDetails,

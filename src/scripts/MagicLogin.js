@@ -25,7 +25,7 @@ const loginWithMagic = async () => {
 
 const magicBackendLogin = async (did) => {
   try {
-    const res = await axios.post("/backend/user/magicLogin", {
+    const res = await axios.post("https://api.hashcase.co/user/magicLogin", {
       did,
     });
     const { user_instance, token } = res.data;

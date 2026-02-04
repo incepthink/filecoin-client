@@ -24,7 +24,7 @@ const NFTCard = () => {
     >
       <div className="bg-white p-4 rounded-3xl">
         <Image
-          src="https://incepthink.mypinata.cloud/ipfs/Qmf4m2yCmKZNFFszc4FzrYLD9vsPX7oYCaPn73sGmfzfL4"
+          src="https://lime-occasional-angelfish-940.mypinata.cloud/ipfs/bafkreig6b4lc3i3lihyiedahx76wnrlcxyyemeikkoov7zmffcoqc32jfm"
           alt="NFT Template"
           width={537}
           height={537}

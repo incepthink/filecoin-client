@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/Context";
+import Web3Providers from "@/providers/Web3Providers";
 
 export const metadata = {
   title: "HashCase - Adding Real World Utilities For NFTs",
@@ -10,10 +11,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </StoreProvider>
+    <html lang="en">
+      <body>
+        <Web3Providers>
+          <StoreProvider>{children}</StoreProvider>
+        </Web3Providers>
+      </body>
+    </html>
   );
 }

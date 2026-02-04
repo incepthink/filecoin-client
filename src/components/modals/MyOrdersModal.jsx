@@ -65,7 +65,7 @@ export default MyOrdersModal;
 const fetchOrders = async (state, dispatch) => {
   try {
     const res = await axios.post(
-      "/backend/orders/getAllOrderSummary",
+      "https://api.hashcase.co/orders/getAllOrderSummary",
       {
         userId: state.user.id,
       },

@@ -9,12 +9,12 @@ const nextConfig = {
     FVM_NFT_CONTRACT_ADDRESS: process.env.FVM_NFT_CONTRACT_ADDRESS,
   },
   images: {
-    domains: ["incepthink.mypinata.cloud"],
+    domains: ["incepthink.mypinata.cloud", "lime-occasional-angelfish-940.mypinata.cloud"],
   },
   rewrites: async () => [
     {
       source: "/backend/:path*",
-      destination: `${process.env.API}/:path*`,
+      destination: `http://localhost:8000/:path*`, //${process.env.API}
     },
     {
       source: "/frontend/:path*",

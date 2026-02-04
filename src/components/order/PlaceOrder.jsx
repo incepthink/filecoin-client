@@ -26,7 +26,7 @@ export default BurnNFT;
 const placeOrder = async (state, dispatch) => {
   try {
     const res = await axios.post(
-      "/backend/orders/createOrder",
+      "https://api.hashcase.co/orders/createOrder",
       {
         user_id: state.user.id,
         shipping_id: state.shippingDetails.shipping_id,

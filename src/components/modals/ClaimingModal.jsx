@@ -24,7 +24,18 @@ const ClaimingModal = ({ showModal, setShowModal, transactionDetails }) => {
             <h1 className="">
               Transaction Hash:{" "}
               <span className="font-normal break-all">
-                {transactionDetails?.receipt?.hash || "N/A"}
+                {transactionDetails?.data?.transactionHash ? (
+                  <a
+                    href={`https://filecoin-testnet.blockscout.com/tx/${transactionDetails.data.transactionHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    {transactionDetails.data.transactionHash}
+                  </a>
+                ) : (
+                  "N/A"
+                )}
               </span>
             </h1>
           )}

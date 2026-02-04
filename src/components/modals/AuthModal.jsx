@@ -1,11 +1,73 @@
+"use client";
+
 import { StoreContext } from "@/Context";
-import connectWallet from "@/scripts/ConnectWallet";
 import loginWithMagic from "@/scripts/MagicLogin";
 import Cookies from "js-cookie";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useCallback } from "react";
+import { useWalletAuth } from "@/hooks/useWalletAuth";
 
 const AuthModal = ({ showModal, setShowModal }) => {
   const { state, dispatch } = useContext(StoreContext);
+  const {
+    isConnected,
+    isCorrectChain,
+    openConnect,
+    authenticateWithBackend,
+  } = useWalletAuth();
+
+  // Track whether we've already authenticated this connection session
+  const hasAuthenticatedRef = useRef(false);
+  // Track if user manually triggered connect
+  const userTriggeredConnectRef = useRef(false);
+
+  // Handle the post-connection authentication flow
+  const handleAuthAfterConnect = useCallback(async () => {
+    if (hasAuthenticatedRef.current) {
+      return;
+    }
+
+    hasAuthenticatedRef.current = true;
+
+    const { user, jwt } = await authenticateWithBackend();
+
+    if (user !== null) {
+      dispatch({ type: "SET_USER", payload: user });
+      setShowModal(false);
+    }
+    if (jwt !== null) {
+      dispatch({ type: "SET_JWT", payload: jwt });
+    }
+
+    // Reset trigger flag after auth attempt
+    userTriggeredConnectRef.current = false;
+  }, [authenticateWithBackend, dispatch, setShowModal]);
+
+  // Effect to trigger auth when wallet connects and is on correct chain
+  // Only runs when user explicitly triggered the connect flow
+  useEffect(() => {
+    // Only proceed if:
+    // 1. Modal is shown
+    // 2. Wallet is connected
+    // 3. On correct chain
+    // 4. User manually triggered connect (not just page load)
+    // 5. Haven't authenticated yet for this session
+    if (
+      showModal &&
+      isConnected &&
+      isCorrectChain &&
+      userTriggeredConnectRef.current &&
+      !hasAuthenticatedRef.current
+    ) {
+      handleAuthAfterConnect();
+    }
+  }, [showModal, isConnected, isCorrectChain, handleAuthAfterConnect]);
+
+  // Reset auth flag when modal opens (allow re-auth)
+  useEffect(() => {
+    if (showModal) {
+      hasAuthenticatedRef.current = false;
+    }
+  }, [showModal]);
 
   if (!showModal) return null;
 
@@ -14,13 +76,20 @@ const AuthModal = ({ showModal, setShowModal }) => {
   };
 
   const handleMetamaskConnectWallet = async () => {
-    const { user, jwt } = await connectWallet();
-    if (user !== null) {
-      dispatch({ type: "SET_USER", payload: user });
-      setShowModal(false);
-    }
-    if (jwt != null) {
-      dispatch({ type: "SET_JWT", payload: jwt });
+    // Mark that user explicitly triggered connect
+    userTriggeredConnectRef.current = true;
+    hasAuthenticatedRef.current = false;
+
+    if (isConnected && isCorrectChain) {
+      // Already connected and on correct chain - just run auth
+      await handleAuthAfterConnect();
+    } else if (isConnected && !isCorrectChain) {
+      // Connected but wrong chain - run auth which will switch chain
+      await handleAuthAfterConnect();
+    } else {
+      // Not connected - open RainbowKit connect modal
+      // The useEffect will trigger auth after successful connection
+      openConnect();
     }
   };
 
