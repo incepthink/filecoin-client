@@ -10,6 +10,7 @@ const nextConfig = {
     FVM_NFT_CONTRACT_ADDRESS: process.env.FVM_NFT_CONTRACT_ADDRESS,
   },
   images: {
+    unoptimized: true,
     domains: ["incepthink.mypinata.cloud", "lime-occasional-angelfish-940.mypinata.cloud"],
   },
   rewrites: async () => [
