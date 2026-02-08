@@ -15,7 +15,7 @@ const claimNFT = async (state) => {
       description,
       image_url: NFT_IMAGE_URL,
       attributes: [],
-      recipient: user.wallet_address || user.magic_wallet,
+      recipient: user.wallet_address || user.eth_wallet_address || user.magic_wallet,
       amount: 1,
       metadata_id: 49,
     };
