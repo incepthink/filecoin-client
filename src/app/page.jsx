@@ -65,7 +65,7 @@ const Home = () => {
       return;
     }
     router.push(
-      `/profile/${state.user.wallet_address || state.user.magic_wallet}`
+      `/profile/${state.user.eth_wallet_address || state.user.wallet_address || state.user.magic_wallet}`
     );
   };
 
@@ -201,7 +201,7 @@ const Home = () => {
             <Suspense>
               {state.user
                 ? returnShortAddress(
-                    state.user.wallet_address || state.user.magic_wallet
+                    state.user.eth_wallet_address || state.user.wallet_address || state.user.magic_wallet
                   )
                 : "Login"}
             </Suspense>

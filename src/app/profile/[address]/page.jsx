@@ -3,26 +3,22 @@
 import { StoreContext } from "@/Context";
 import getMyNFTs from "@/scripts/GetMyNFTs";
 import { useParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 const Profile = () => {
   const { address } = useParams();
   const { state, dispatch } = useContext(StoreContext);
-  const [userAddress, setUserAddress] = useState(address);
 
   const handleGetMyNFTs = async () => {
     console.log("fetching my nfts");
     dispatch({ type: "SET_MY_NFTS", payload: null });
-    const nfts = await getMyNFTs({
-      wallet_address: userAddress,
-    });
-    console.log(nfts);
+    const nfts = await getMyNFTs();
     dispatch({ type: "SET_MY_NFTS", payload: nfts });
   };
 
   useEffect(() => {
     handleGetMyNFTs();
-  }, [userAddress]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-black w-full flex flex-col items-center">
@@ -33,7 +29,7 @@ const Profile = () => {
       </div>
       <div className="max-w-6xl w-full">
         <div className="text-lg my-6 font-mono w-full break-words">
-          <p>{userAddress}</p>
+          <p>{address}</p>
         </div>
         <div className="max-w-6xl mx-auto">
           {!state.myNFTs ? (
@@ -58,7 +54,7 @@ const Profile = () => {
                     </h3>
                     <p className="text-xl text-gray-600">{nft.description}</p>
                     <p className="font-bold text-gray-800">
-                      Quantity: {nft.quantity}
+                      Token ID: {nft.token_id}
                     </p>
                   </div>
                 </div>

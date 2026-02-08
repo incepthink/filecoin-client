@@ -1,5 +1,5 @@
 import { Magic } from "magic-sdk";
-import { OAuthExtension } from "@magic-ext/oauth";
+import { OAuthExtension } from "@magic-ext/oauth2";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const getMagic = async () => {
 
 const loginWithMagic = async () => {
   const magic = await getMagic();
-  const didToken = await magic.oauth.loginWithRedirect({
+  const didToken = await magic.oauth2.loginWithRedirect({
     provider: "google",
     redirectURI: `${window.location.origin}/verify`,
   });
@@ -25,8 +25,8 @@ const loginWithMagic = async () => {
 
 const magicBackendLogin = async (did) => {
   try {
-    const res = await axios.post("https://api.hashcase.co/user/magicLogin", {
-      did,
+    const res = await axios.post("https://api.hashcase.co/auth/magic/login", {
+      didToken: did,
     });
     const { user_instance, token } = res.data;
 

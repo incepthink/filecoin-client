@@ -1,9 +1,7 @@
 import { StoreContext } from "@/Context";
-import getMyNFTs, { getTokenBalance } from "@/scripts/GetMyNFTs";
-import { returnShortAddress } from "@/scripts/utils";
-import { useContext, useEffect, useState } from "react";
+import getMyNFTs from "@/scripts/GetMyNFTs";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
-import notify from "@/scripts/notify";
 
 const MyNFTsModal = ({ showModal, setShowModal }) => {
   if (!showModal) return null;
@@ -15,7 +13,7 @@ const MyNFTsModal = ({ showModal, setShowModal }) => {
   const handleGetMyNFTs = async () => {
     console.log("fetching my nfts");
     dispatch({ type: "SET_MY_NFTS", payload: null });
-    const nfts = await getMyNFTs(state.user);
+    const nfts = await getMyNFTs();
     dispatch({ type: "SET_MY_NFTS", payload: nfts });
   };
 
@@ -51,7 +49,7 @@ const MyNFTsModal = ({ showModal, setShowModal }) => {
         <div className="p-4 overflow-y-auto" style={{ maxHeight: "80vh" }}>
           {state.myNFTs ? (
             state.myNFTs.map((nft, index) => (
-              <NFTCard key={index} nft={nft} userId={state.user.id} />
+              <NFTCard key={index} nft={nft} />
             ))
           ) : (
             <h1 className="text-center text-lg text-gray-500">
@@ -66,8 +64,8 @@ const MyNFTsModal = ({ showModal, setShowModal }) => {
 
 export default MyNFTsModal;
 
-const NFTCard = ({ nft, userId }) => {
-  const { state, dispatch } = useContext(StoreContext);
+const NFTCard = ({ nft }) => {
+  const { dispatch } = useContext(StoreContext);
 
   return (
     <div className="flex flex-col md:flex-row items-center md:items-start gap-4 bg-gray-50 p-4 rounded-lg shadow mb-4">
@@ -79,7 +77,7 @@ const NFTCard = ({ nft, userId }) => {
       <div className="flex-grow">
         <div className="text-lg font-bold text-gray-900">{nft?.name}</div>
         <div className="text-sm text-gray-500 mb-4">
-          Contract: {returnShortAddress(nft?.contract_address)}
+          {nft?.description}
         </div>
         <Link href={`/order`} passHref>
           <button
