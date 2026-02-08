@@ -12,7 +12,7 @@ const Profile = () => {
   const handleGetMyNFTs = async () => {
     console.log("fetching my nfts");
     dispatch({ type: "SET_MY_NFTS", payload: null });
-    const nfts = await getMyNFTs();
+    const nfts = await getMyNFTs(224);
     dispatch({ type: "SET_MY_NFTS", payload: nfts });
   };
 
