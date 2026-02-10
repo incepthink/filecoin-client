@@ -48,9 +48,11 @@ const MyNFTsModal = ({ showModal, setShowModal }) => {
         </div>
         <div className="p-4 overflow-y-auto" style={{ maxHeight: "80vh" }}>
           {state.myNFTs ? (
-            state.myNFTs.map((nft, index) => (
-              <NFTCard key={index} nft={nft} />
-            ))
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {state.myNFTs.map((nft, index) => (
+                <NFTCard key={index} nft={nft} />
+              ))}
+            </div>
           ) : (
             <h1 className="text-center text-lg text-gray-500">
               Fetching NFTs...
@@ -68,27 +70,17 @@ const NFTCard = ({ nft }) => {
   const { dispatch } = useContext(StoreContext);
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-start gap-4 bg-gray-50 p-4 rounded-lg shadow mb-4">
+    <div className="flex flex-col bg-gray-50 rounded-lg shadow overflow-hidden hover:shadow-md transition-shadow duration-200">
       <img
         src={nft?.image_uri}
         alt="nft"
-        className="w-40 h-40 object-cover flex-shrink-0 rounded-md"
+        className="w-full h-56 object-cover"
       />
-      <div className="flex-grow">
-        <div className="text-lg font-bold text-gray-900">{nft?.name}</div>
-        <div className="text-sm text-gray-500 mb-4">
+      <div className="p-3">
+        <div className="text-base font-bold text-gray-900 truncate">{nft?.name}</div>
+        <div className="text-sm text-gray-500 line-clamp-2 mt-1">
           {nft?.description}
         </div>
-        <Link href={`/order`} passHref>
-          <button
-            className="inline-block bg-primary text-white py-2 px-4 rounded hover:bg-primary-dark transition duration-150 ease-in-out"
-            onClick={() => {
-              dispatch({ type: "SET_ORDER_NFT", payload: nft });
-            }}
-          >
-            Order
-          </button>
-        </Link>
       </div>
     </div>
   );

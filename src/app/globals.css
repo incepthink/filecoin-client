@@ -67,7 +67,7 @@ body {
   z-index: -1;
   top: -0.5%;
   left: -0.5%;
-  animation: spin 2.5s linear infinite;
+  animation: card-gradient-spin 2.5s linear infinite;
 }
 
 .card::after {
@@ -90,10 +90,10 @@ body {
   );
   opacity: 1;
   transition: opacity 0.5s;
-  animation: spin 2.5s linear infinite;
+  animation: card-gradient-spin 2.5s linear infinite;
 }
 
-@keyframes spin {
+@keyframes card-gradient-spin {
   0% {
     --rotate: 0deg;
   }

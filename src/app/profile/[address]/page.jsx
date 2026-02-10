@@ -2,11 +2,12 @@
 
 import { StoreContext } from "@/Context";
 import getMyNFTs from "@/scripts/GetMyNFTs";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useContext, useEffect } from "react";
 
 const Profile = () => {
   const { address } = useParams();
+  const router = useRouter();
   const { state, dispatch } = useContext(StoreContext);
 
   const handleGetMyNFTs = async () => {
@@ -21,13 +22,24 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-black w-full flex flex-col items-center">
+    <div className="min-h-screen bg-white text-black w-full flex flex-col items-center ">
       <div className="py-4 w-full bg-primary text-white flex justify-center">
-        <div className="max-w-6xl w-full flex items-center gap-x-4 justify-center">
+        <div className="max-w-6xl w-full flex items-center gap-x-4 justify-center relative">
+          <button
+            onClick={() => router.back()}
+            className="absolute left-4 p-2 hover:opacity-75 transition-opacity flex items-center gap-1"
+            aria-label="Go back"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5" />
+              <path d="m12 19-7-7 7-7" />
+            </svg>
+            <span>Back</span>
+          </button>
           <h1 className="text-4xl font-semibold">My Profile</h1>
         </div>
       </div>
-      <div className="max-w-6xl w-full">
+      <div className="max-w-6xl w-full p-4">
         <div className="text-lg my-6 font-mono w-full break-words">
           <p>{address}</p>
         </div>

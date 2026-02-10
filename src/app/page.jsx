@@ -168,12 +168,12 @@ const Home = () => {
           </div>
         </div>
         <div className="p-2 absolute flex flex-wrap items-center justify-center gap-x-2 md:gap-x-6 w-full md:w-fit md:right-2 top-2 z-20 text-sm md:text-base">
-          <button
+          {/* <button
             className="bg-white text-primary font-bold px-6 py-3 rounded-full"
             onClick={handleMyOrdersClick}
           >
             My Orders
-          </button>
+          </button> */}
           <button
             className="bg-white text-primary font-bold px-6 py-3 rounded-full"
             onClick={() => {
