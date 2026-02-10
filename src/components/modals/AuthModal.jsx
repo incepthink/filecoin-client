@@ -3,7 +3,7 @@
 import { StoreContext } from "@/Context";
 import loginWithMagic from "@/scripts/MagicLogin";
 import Cookies from "js-cookie";
-import { useContext, useEffect, useRef, useCallback } from "react";
+import { useContext, useEffect, useRef, useCallback, useState } from "react";
 import { useWalletAuth } from "@/hooks/useWalletAuth";
 
 const AuthModal = ({ showModal, setShowModal }) => {
@@ -14,6 +14,7 @@ const AuthModal = ({ showModal, setShowModal }) => {
     openConnect,
     authenticateWithBackend,
   } = useWalletAuth();
+  const [googleLogin, setGoogleLogin] = useState(false);
 
   // Track whether we've already authenticated this connection session
   const hasAuthenticatedRef = useRef(false);
@@ -72,7 +73,9 @@ const AuthModal = ({ showModal, setShowModal }) => {
   if (!showModal) return null;
 
   const handleGoogleLogin = async () => {
-    loginWithMagic();
+    setGoogleLogin(true);
+    await loginWithMagic();
+    setGoogleLogin(false);
   };
 
   const handleMetamaskConnectWallet = async () => {
@@ -128,13 +131,39 @@ const AuthModal = ({ showModal, setShowModal }) => {
           <button
             className="w-full flex justify-center items-center gap-x-6 text-black border-1 border-black font-bold py-3 rounded-md"
             onClick={handleGoogleLogin}
+            disabled={googleLogin}
           >
-            <img
-              src="/images/google_logo.svg"
-              alt="google_logo"
-              className="w-6 h-6"
-            />
-            Continue with Google
+            {googleLogin ? (
+              <svg
+                className="animate-spin h-6 w-6 text-blue-600"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+            ) : (
+              <>
+                <img
+                  src="/images/google_logo.svg"
+                  alt="google_logo"
+                  className="w-6 h-6"
+                />
+                <p>Continue with Google</p>
+              </>
+            )}
           </button>
           <button
             className="w-full flex justify-center items-center gap-x-6 text-black font-bold border-1 border-black rounded-md"
